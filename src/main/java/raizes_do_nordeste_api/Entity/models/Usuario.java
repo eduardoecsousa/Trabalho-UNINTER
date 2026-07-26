@@ -43,13 +43,12 @@ public class Usuario implements UserDetails {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Usuario(String nome, String senhaHash, String email, Role role, Boolean consentimentoLgpd, LocalDateTime createdAt) {
+    public Usuario(String nome, String senhaHash, String email, Role role, Boolean consentimentoLgpd) {
         this.nome = nome;
         this.senhaHash = senhaHash;
         this.email = email;
         this.role = role;
         this.consentimentoLgpd = consentimentoLgpd;
-        this.createdAt = createdAt;
     }
 
     @Override
