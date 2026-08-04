@@ -9,21 +9,6 @@ import raizes_do_nordeste_api.Entity.repository.EstoqueRepository;
 
 import java.util.UUID;
 
-// public boolean temEstoque(Integer qtd) {
-//        return this.quantidade >= qtd;
-//    }
-//
-//    public void decrementar(Integer qtd) {
-//        if (!temEstoque(qtd)) {
-//            throw new RuntimeException("Estoque insuficiente!");
-//        }
-//        this.quantidade -= qtd;
-//    }
-//
-//    public void incrementar(Integer qtd) {
-//        this.quantidade += qtd;
-//    }
-
 @Service
 @RequiredArgsConstructor
 public class EstoqueService {
