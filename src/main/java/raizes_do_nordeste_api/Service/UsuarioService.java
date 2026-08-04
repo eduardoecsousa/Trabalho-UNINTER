@@ -15,7 +15,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Usuario cadastrar (String nome, String email, String senha, Boolean consentimento) {
+    public Usuario insert (String nome, String email, String senha, Boolean consentimento) {
         if (usuarioRepository.existsByEmail(email)) {
             throw new RuntimeException("E-mail já cadastrado.");
         }
@@ -23,7 +23,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario buscarEmail(String email) {
+    public Usuario findByEmail(String email) {
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
     }

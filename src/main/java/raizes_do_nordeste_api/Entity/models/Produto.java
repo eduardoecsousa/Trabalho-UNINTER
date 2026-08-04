@@ -37,4 +37,8 @@ public class Produto {
         this.ativo = true;
     }
 
+    public boolean isDisponivel() {
+        return this.ativo;
+    }
+
 }
