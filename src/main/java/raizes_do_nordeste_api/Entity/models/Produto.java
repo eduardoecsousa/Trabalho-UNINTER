@@ -38,7 +38,7 @@ public class Produto {
     }
 
     public boolean isDisponivel() {
-        return this.ativo;
+        return Boolean.TRUE.equals(this.ativo);
     }
 
 }
