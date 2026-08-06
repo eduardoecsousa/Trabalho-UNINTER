@@ -31,6 +31,9 @@ public class Pagamento {
 
     private LocalDateTime createdAt;
 
+    public Pagamento(Pedido pedido, String paymentMethod, BigDecimal total) {
+    }
+
     @PrePersist
     protected void onCreated(){
         this.createdAt = LocalDateTime.now();
