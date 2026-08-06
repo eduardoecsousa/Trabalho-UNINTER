@@ -67,4 +67,11 @@ public class Pedido {
     public void confirmar() {
         this.status = StatusPedido.CONFIRMADO;
     }
+
+    public void calcularTotal() {
+        this.total = itens.stream()
+                .map(item -> item.getPrecoUnitario()
+                        .multiply(BigDecimal.valueOf(item.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
