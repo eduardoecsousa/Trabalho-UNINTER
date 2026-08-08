@@ -1,5 +1,6 @@
 package raizes_do_nordeste_api.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import raizes_do_nordeste_api.Entity.models.*;
@@ -20,6 +21,7 @@ public class PedidoService {
     private final ProdutoService produtoService;
     private final UnidadeService unidadeService;
 
+    @Transactional
     public Pedido insert(UUID usuarioId, UUID unidadeId,
                          CanalPedido canalPedido,
                          List<ItemPedidoRequest> itens,

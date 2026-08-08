@@ -31,8 +31,8 @@ public class AuthController {
         Usuario usuario = usuarioService.insert(
                 dto.getNome(),
                 dto.getEmail(),
-                dto.getPassword(),
-                dto.isConsetimentoLgpd()
+                dto.getSenha(),
+                dto.isConsentimentoLgpd()
         );
 
         fidelidadeService.insert(usuario);
@@ -47,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequestDTO dto){
-        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
+        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha()));
 
         Usuario usuario = (Usuario) auth.getPrincipal();
         assert usuario != null;

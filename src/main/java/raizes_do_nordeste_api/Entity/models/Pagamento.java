@@ -24,6 +24,7 @@ public class Pagamento {
     @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusPagamento statusPagamento;
 
@@ -32,6 +33,8 @@ public class Pagamento {
     private LocalDateTime createdAt;
 
     public Pagamento(Pedido pedido, String paymentMethod, BigDecimal total) {
+        this.pedido = pedido;
+        this.valor = total;
     }
 
     @PrePersist

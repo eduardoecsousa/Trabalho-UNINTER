@@ -10,6 +10,9 @@ spring:
   application:
     name: api
 
+jwt:
+  secret: raizes-do-nordeste-chave-secreta-super-segura-2026-projeto-uninter-backend
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

@@ -2,18 +2,27 @@ package raizes_do_nordeste_api.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import raizes_do_nordeste_api.Entity.models.Usuario;
-
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final Key chave = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long EXPIRACAO = 86400000; // 24 horas em ms
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    private final long EXPIRACAO = 86400000;
+
+    private Key getChave() {
+        return Keys.hmacShaKeyFor(
+                secret.getBytes(StandardCharsets.UTF_8)
+        );
+    }
 
     public String generateToken(Usuario usuario) {
         return Jwts.builder()
@@ -22,7 +31,7 @@ public class JwtUtil {
                 .claim("id", usuario.getId().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRACAO))
-                .signWith(chave)
+                .signWith(getChave())
                 .compact();
     }
 
@@ -41,7 +50,7 @@ public class JwtUtil {
 
     private Claims extractClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(chave)
+                .setSigningKey(getChave())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

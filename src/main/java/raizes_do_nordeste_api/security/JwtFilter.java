@@ -29,38 +29,67 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
+        System.out.println("=== JWT FILTER ===");
+        System.out.println("Header: " + authHeader);
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = authHeader.substring(7);
-        String email = jwtUtil.extractEmail(token);
 
-        if (email != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+        try {
+            String email = jwtUtil.extractEmail(token);
+            System.out.println("Email extraído: " + email);
 
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(email);
+            if (email != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(email);
 
-            if (jwtUtil.tokenValid(token, email)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                boolean valido = jwtUtil.tokenValid(token, email);
+                System.out.println("Token válido: " + valido);
 
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
+                if (valido) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authToken);
+                }
+                if (valido) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authToken);
 
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authToken);
+                    // Logs de debug:
+                    System.out.println("Authorities: " + userDetails.getAuthorities());
+                    System.out.println("Auth setada: " + SecurityContextHolder.getContext().getAuthentication());
+                }
             }
+
+        } catch (Exception e) {
+            System.out.println("Erro no JWT: " + e.getMessage());
         }
 
         filterChain.doFilter(request, response);
     }
+
 }
