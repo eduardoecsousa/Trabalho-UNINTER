@@ -23,7 +23,6 @@ import raizes_do_nordeste_api.Entity.repository.UsuarioRepository;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-    private final UsuarioRepository usuarioRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -54,12 +53,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return email -> usuarioRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuário não encontrado: " + email));
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

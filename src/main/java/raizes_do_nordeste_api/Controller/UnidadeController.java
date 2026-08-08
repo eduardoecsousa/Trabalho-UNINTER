@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/unit")
+@RequestMapping("/unidades")
 @RequiredArgsConstructor
 public class UnidadeController {
     private final UnidadeService unidadeService;

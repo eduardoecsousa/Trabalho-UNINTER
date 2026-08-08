@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/produtos")
 @RequiredArgsConstructor
 public class ProdutoController {
     private final ProdutoService produtoService;

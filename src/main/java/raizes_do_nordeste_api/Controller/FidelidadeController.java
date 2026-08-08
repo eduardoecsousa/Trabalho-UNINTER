@@ -9,22 +9,22 @@ import raizes_do_nordeste_api.Entity.models.Usuario;
 import raizes_do_nordeste_api.Service.FidelidadeService;
 
 @RestController
-@RequestMapping("/fidelity")
+@RequestMapping("/fidelidade")
 @RequiredArgsConstructor
 public class FidelidadeController {
     private final FidelidadeService fidelidadeService;
 
-    @GetMapping("/my-points")
+    @GetMapping("/meus-pontos")
     public ResponseEntity<Integer> getSaldo(@AuthenticationPrincipal Usuario usuario) {
         return ResponseEntity.ok(fidelidadeService.consultPoints(usuario.getId()));
     }
 
-    @GetMapping("/my-historic")
+    @GetMapping("/meu-historico")
     public ResponseEntity<Fidelidade> consultHistoric(@AuthenticationPrincipal Usuario usuario) {
         return ResponseEntity.ok(fidelidadeService.findByIdUsuario(usuario.getId()));
     }
 
-    @PostMapping("/rescue")
+    @PostMapping("/resgatar")
     public ResponseEntity<String> rescuePoints(@AuthenticationPrincipal Usuario usuario, @RequestParam Integer pontos) {
         boolean resgatdado = fidelidadeService.redeemPoints(usuario.getId(), pontos);
 

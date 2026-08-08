@@ -80,14 +80,14 @@ public class PedidoController {
         );
     }
 
-    @PatchMapping("/{id}/cancel")
+    @PatchMapping("/{id}/cancelar")
     public ResponseEntity<PedidoResponseDTO> cancel(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario){
         var pedido = pedidoService.cancel(id, pedidoService.findById(id).getUnidade().getId());
 
         return ResponseEntity.ok(PedidoResponseDTO.fromEntity(pedido));
     }
 
-    @PatchMapping("/{id}/update-status")
+    @PatchMapping("/{id}/atualizar-status")
     @PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
     public ResponseEntity<PedidoResponseDTO> updateStatus(@PathVariable UUID id, @RequestParam StatusPedido newStatus){
         var pedido = pedidoService.updateStatus(id, newStatus);

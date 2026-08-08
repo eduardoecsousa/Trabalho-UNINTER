@@ -30,7 +30,7 @@ public class AdminController {
     private final UnidadeService unidadeService;
     private final ProdutoService produtoService;
 
-    @GetMapping("/requests")
+    @GetMapping("/pedidos")
     public ResponseEntity<List<PedidoResponseDTO>> getAllPedidos(@RequestParam(required = false) CanalPedido canalPedido,
                                                                  @RequestParam(required = false)StatusPedido statusPedido){
         List<PedidoResponseDTO> pedidos;
@@ -54,7 +54,7 @@ public class AdminController {
         return ResponseEntity.ok(pedidos);
     }
 
-    @PostMapping("/stock")
+    @PostMapping("/estoque")
     public ResponseEntity<Estoque> registerEstoque(@RequestParam UUID unidadeId,
                                                    @RequestParam UUID produtoId,
                                                    @RequestParam Integer quantidade) {
@@ -64,7 +64,7 @@ public class AdminController {
         return ResponseEntity.status(201).body(estoqueService.insert(unidade, produto, quantidade));
     }
 
-    @PatchMapping("/stock/increase")
+    @PatchMapping("/estoque/aumentar")
     public ResponseEntity<String> increaseStock(@RequestParam UUID unidadeId,
                                                 @RequestParam UUID produtoId,
                                                 @RequestParam Integer quantidade) {
@@ -72,7 +72,7 @@ public class AdminController {
         return ResponseEntity.ok("Estoque aumentado com sucesso!");
     }
 
-    @GetMapping("/stock")
+    @GetMapping("/estoque")
     public ResponseEntity<Integer> consultStock(@RequestParam UUID unidadeId,
                                                 @RequestParam UUID produtoId) {
         return ResponseEntity.ok(
