@@ -31,7 +31,7 @@ public class ProdutoController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Produto> register(@RequestParam Produto produto) {
+    public ResponseEntity<Produto> register(@RequestBody Produto produto) {
         return ResponseEntity.status(201).body(
                 produtoService.insert(produto)
         );

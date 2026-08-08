@@ -26,7 +26,7 @@ public class Fidelidade {
 
     private int pontosResgatados;
 
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 
     public Fidelidade(Usuario usuario) {
         this.usuario = usuario;

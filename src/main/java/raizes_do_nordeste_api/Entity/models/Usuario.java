@@ -1,5 +1,6 @@
 package raizes_do_nordeste_api.Entity.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Usuario implements UserDetails {
 
     private String email;
 
+    @JsonIgnore
     private String senhaHash;
 
     private Role role;
@@ -51,11 +53,13 @@ public class Usuario implements UserDetails {
         this.consentimentoLgpd = consentimentoLgpd;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return senhaHash;
