@@ -27,12 +27,12 @@ public class ItemPedido {
     private Produto produto;
 
     @Column(nullable = false)
-    private int quantidade;
+    private Integer quantidade;
 
     @Column(nullable = false)
     private BigDecimal precoUnitario;
 
-    public ItemPedido(Produto produto, Pedido pedido, int quantidade, BigDecimal precoUnitario) {
+    public ItemPedido(Produto produto, Pedido pedido, Integer quantidade, BigDecimal precoUnitario) {
         this.produto = produto;
         this.pedido = pedido;
         this.quantidade = quantidade;

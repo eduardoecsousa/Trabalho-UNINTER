@@ -37,7 +37,7 @@ public class PedidoService {
         pedido.setUsuario(usuario);
         pedido.setUnidade(unidade);
         pedido.setCanalPedido(canalPedido);
-        pedido.setStatus(StatusPedido.PEDENTE);
+        pedido.setStatus(StatusPedido.PENDENTE);
 
         for(ItemPedidoRequest item : itens) {
             Produto produto = produtoService.findById(item.getProdutoId());
@@ -71,6 +71,53 @@ public class PedidoService {
 
         return pedidoRepository.save(pedidoSalvo);
     }
+    public List<Pedido> findByIdUsuario(UUID usuarioId) {
+        return pedidoRepository.findByUsuarioId(usuarioId);
+    }
+
+    public List<Pedido> findByIdCanal(CanalPedido canalPedido) {
+        return pedidoRepository.findByCanalPedido(canalPedido);
+    }
+
+    public List<Pedido> findByIdStatus(StatusPedido status) {
+        return pedidoRepository.findByStatus(status);
+    }
+
+    public Pedido findById(UUID id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Pedido não encontrado!"));
+    }
+
+    public Pedido cancel(UUID pedidoId, UUID unidadeId) {
+        Pedido pedido = findById(pedidoId);
+
+        if (!pedido.getStatus().equals(StatusPedido.PENDENTE) &&
+                !pedido.getStatus().equals(StatusPedido.AGUARDANDO_PAGAMENTO)) {
+            throw new RuntimeException(
+                    "Pedido não pode ser cancelado no status: "
+                            + pedido.getStatus()
+            );
+        }
+
+        for (ItemPedido item : pedido.getItens()) {
+            estoqueService.increase(
+                    unidadeId,
+                    item.getProduto().getId(),
+                    item.getQuantidade()
+            );
+        }
+
+        pedido.cancelar();
+        return pedidoRepository.save(pedido);
+    }
+
+    public Pedido updateStatus(UUID pedidoId, StatusPedido novoStatus) {
+        Pedido pedido = findById(pedidoId);
+        pedido.setStatus(novoStatus);
+        return pedidoRepository.save(pedido);
+    }
+
 
     public static class ItemPedidoRequest {
         private UUID produtoId;
