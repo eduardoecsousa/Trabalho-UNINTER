@@ -36,6 +36,7 @@ public class FidelidadeService {
             return false;
         }
         fidelidade.setPontosResgatados(fidelidade.getPontosResgatados() + pontos);
+        fidelidadeRepository.save(fidelidade);
         return true;
     }
 
