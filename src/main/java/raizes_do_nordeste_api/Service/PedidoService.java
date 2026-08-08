@@ -89,6 +89,10 @@ public class PedidoService {
                         new RuntimeException("Pedido não encontrado!"));
     }
 
+    public List<Pedido> findAll() {
+        return pedidoRepository.findAll();
+    }
+
     public Pedido cancel(UUID pedidoId, UUID unidadeId) {
         Pedido pedido = findById(pedidoId);
 
